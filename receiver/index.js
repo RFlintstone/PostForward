@@ -1,15 +1,28 @@
-const express = require('express');
 const bodyParser = require('body-parser');
+const online_log = require("online-log");
+const express = require('express');
 
 const app = express();
+const port = 8082;
+
 app.use(bodyParser.json());
+online_log(app);
+const { log } = online_log;
 
 app.post('/receive-data', (req, res) => {
-    const { data } = req.body;
-    console.log(`Received data: ${JSON.stringify(data)}`);
-    res.sendStatus(200);
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress                                       // Get (client) IP
+    const {data} = req.body;                                                                                    // Extract the data from our body
+
+    try {
+        console.log(`Received data: ${JSON.stringify(data)}`);
+        log("INFO", `<br> OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+        res.sendStatus(200);                                                                               // Send a signal to the client that everything was successful
+    } catch (error) {
+        console.error(error);
+        log("ERROR", `<br> Dropped request from ${ip} <br> ${JSON.stringify(req.body)}`);                       // Log our request, so we can see this on the log URL
+    }
 });
 
-app.listen(3001, () => {
-    console.log('Server listening on port 3001');
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
 });
