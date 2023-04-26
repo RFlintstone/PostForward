@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 online_log(app);
 const { log } = online_log;
 
-app.post('/receive-data', (req, res) => {
+app.post('/api/receive-data', (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress                                       // Get (client) IP
     const {data} = req.body;                                                                                    // Extract the data from our body
 

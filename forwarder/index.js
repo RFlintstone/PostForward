@@ -14,15 +14,15 @@ const {log} = online_log;
 
 // Define the routing table based on client name
 const routingTable = {
-    "noob-server": "http://central-server.com/receive-data",
-    "server-1": "http://server1.com/receive-data",
-    "server-2": "http://server2.com/receive-data",
-    "server-3": "http://server3.com/receive-data",
-    "server-4": "http://server4.com/receive-data",
-    "dev": "http://127.0.0.1:8082/receive-data"
+    "noob-server": "http://central-server.com/api/receive-data",
+    "server-1": "http://server1.com/api/receive-data",
+    "server-2": "http://server2.com/api/receive-data",
+    "server-3": "http://server3.com/api/receive-data",
+    "server-4": "http://server4.com/api/receive-data",
+    "dev": "http://127.0.0.1:8082/api/receive-data"
 };
 
-app.post('/route-data', async (req, res) => {
+app.post('/api/route-data', async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress                                       // Get (client) IP
     const {name, data} = req.body;                                                                              // Extract data from JSON body
     let color = "\x1b[31m";                                                                                     // Foreground red
@@ -50,6 +50,26 @@ app.post('/route-data', async (req, res) => {
     }
 });
 
+app.all('/api/test', async (req, res) => {
+    const json = {
+        "data": {
+            "head": {
+                "fromCtry": "value",
+                "fromBank": "value",
+                "toCtry": "value",
+                "toBank": "value"
+            },
+            "body": {
+                "execute": {
+                    "type": "value",
+                    "value": "optional"
+                }
+            }
+        }
+    }
+
+    res.status(200).json(json)
+})
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
