@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const online_log = require("online-log");
 const express = require('express');
 
 const app = express();
-const port = 8082;
+const port = process.env.RECEIVER_PORT;
 
 app.use(bodyParser.json());
 online_log(app);
