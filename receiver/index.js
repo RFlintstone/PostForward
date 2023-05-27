@@ -18,14 +18,14 @@ app.post('/api/v1/receive-data', (req, res) => {
     try {
         console.log(`Received data: ${JSON.stringify(req.body)}`);
         if (head.toCtry !== "UK") {
-            log("INFO", `<br> ACTING AS NOOB - OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+            log("INFO", `<br> ACTING AS NOOB - OK - Received data from ${ip} <br> ${JSON.stringify(head)}`);                     // Log our request, so we can see this on the log URL
         } else {
-            log("INFO", `<br> OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+            log("INFO", `<br> OK - Received data from ${ip} <br> ${JSON.stringify(head)}`);                     // Log our request, so we can see this on the log URL
         }
         res.sendStatus(200);                                                                               // Send a signal to the client that everything was successful
     } catch (error) {
         console.error(error);
-        log("ERROR", `<br> Dropped request from ${ip} <br> ${JSON.stringify(req.body)}`);                       // Log our request, so we can see this on the log URL
+        log("ERROR", `<br> Dropped request from ${ip} <br> ${JSON.stringify(head)}`);                       // Log our request, so we can see this on the log URL
     }
 });
 
