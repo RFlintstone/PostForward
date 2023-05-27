@@ -4,7 +4,7 @@
   "description": "",
   "main": "forwarder/index.js",
   "scripts": {
-    "test": "npm start",
+    "test": "npm-run-all -p start stop",
     "start": "npm-run-all --parallel start:forwarder start:receiver",
     "start:forwarder": "pm2 start forwarder/index.js --name forwarder",
     "start:receiver": "pm2 start receiver/index.js --name receiver",
