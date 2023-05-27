@@ -11,13 +11,17 @@ app.use(bodyParser.json());
 online_log(app);
 const { log } = online_log;
 
-app.post('/api/receive-data', (req, res) => {
+app.post('/api/v1/receive-data', (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress                                       // Get (client) IP
-    const {data} = req.body;                                                                                    // Extract the data from our body
+    const {head} = req.body;                                                                                    // Extract the data from our body
 
     try {
-        console.log(`Received data: ${JSON.stringify(data)}`);
-        log("INFO", `<br> OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+        console.log(`Received data: ${JSON.stringify(req.body)}`);
+        if (head.toCtry !== "UK") {
+            log("INFO", `<br> ACTING AS NOOB - OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+        } else {
+            log("INFO", `<br> OK - Received data from ${ip} <br> ${JSON.stringify(req.body)}`);                     // Log our request, so we can see this on the log URL
+        }
         res.sendStatus(200);                                                                               // Send a signal to the client that everything was successful
     } catch (error) {
         console.error(error);
