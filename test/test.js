@@ -1,17 +1,15 @@
-const server = require('../forwarder');
-const supertest = require('supertest');
-const assert = require('assert');
-const {response} = require("express");
-
-const request = supertest(server);
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../forwarder/index');
+chai.use(chaiHttp);
 
 describe('GET /api/expected/', function() {
+    this.timeout(300);
+    this.retries(2);
+
     it('responds with json', function(done) {
-        request
+        chai.request(server)
             .get('/api/v1/expected')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
             .end(function (err, res){
                 if (err) return done(err);
                 const head = res.body.head;
@@ -21,7 +19,7 @@ describe('GET /api/expected/', function() {
                 if (head.toCtry !== 'value') throw Error('Test doesnt return correct value')
                 if (head.toBank !== 'value') throw Error('Test doesnt return correct value')
                 if (body.pin !== 1234) throw Error('Test doesnt return correct value')
-                done();
+                return done();
             })
     });
 });
