@@ -21,7 +21,7 @@ describe('GET /api/expected/', function() {
                 if (head.toCtry !== 'value') throw Error('Test doesnt return correct value')
                 if (head.toBank !== 'value') throw Error('Test doesnt return correct value')
                 if (body.pin !== 1234) throw Error('Test doesnt return correct value')
-                return done();
+                done();
             })
     });
 });
