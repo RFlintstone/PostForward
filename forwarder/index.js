@@ -1,5 +1,4 @@
 require('dotenv').config();
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const online_log = require("online-log");
 const bodyParser = require('body-parser');
@@ -17,15 +16,13 @@ const port = process.env.FORWARDER_PORT;
 const options = {
   key: fs.readFileSync('./cert/country_key.pem'),
   cert: fs.readFileSync('./cert/out.pem'),
-  ca: [fs.readFileSync('./cert/noob-root.pem'), fs.readFileSync('./cert/country-ca.pem')],
+  ca: [fs.readFileSync('./cert/noob-root.pem'), fs.readFileSync('./cert/noob-ca.pem')],
   requestCert: true,
   rejectUnauthorized: false
 };
 
 const axi = axios.create({
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false
-  })
+  httpsAgent: new https.Agent({...options})
 });
 
 // Parse incoming request bodies in a middleware before your handlers, available under the req.body property
@@ -103,9 +100,15 @@ app.post('/api/v1/route-data', async (req, res) => {
 
     // Specified name is in the routing table, now lets pass the data we got accordingly
     try {
-        const response = await axios.post(routingTable[toBank], req.body);                                                                  // Forward body using POST
+        const response = await axi.post(routingTable[toBank],req.body, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })                                                 // Forward body using POST
         const data = JSON.stringify(req.body);
         console.log(data);
+
+        console.log(response.data);
 
         if (response.data !== "OK") {                                                                                                       // Make sure the response we got back is OK
             res.sendStatus(500);                                                                                                        // Send 500 code if the request is not OK
