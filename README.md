@@ -4,16 +4,16 @@
 > Log servers will only log the HEAD part of the JSON to prevent leaking any important data
 
 See what body you need to use when POSTing <br>
-[POST, GET] http://145.24.222.51:8081/api/v1/expected
+[POST, GET] https://145.24.222.51:8443/api/v1/expected
 
 The router URL, use POST on this link with the JSON body in order to target a country and bank <br>
-[POST] http://145.24.222.51:8081/api/v1/route-data
+[POST] https://145.24.222.51:8443/api/v1/route-data
 
 Forwarder's log server <br>
-[GET] http://145.24.222.51:8081/online-log/view/
+[GET] http://145.24.222.51:8443/online-log/view/
 
 Receiver's log server <br>
-[GET] http://145.24.222.51:8082/online-log/view/
+[GET] https://145.24.222.51:8082/online-log/view/
 
 ## JSON Body
 > **Warning**
