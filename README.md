@@ -10,7 +10,7 @@ The router URL, use POST on this link with the JSON body in order to target a co
 [POST] https://145.24.222.51:8443/api/v1/route-data
 
 Forwarder's log server <br>
-[GET] http://145.24.222.51:8443/online-log/view/
+[GET] https://145.24.222.51:8443/online-log/view/
 
 Receiver's log server <br>
 [GET] https://145.24.222.51:8082/online-log/view/
