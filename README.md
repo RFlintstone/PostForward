@@ -13,7 +13,7 @@ Forwarder's log server <br>
 [GET] https://145.24.222.51:8443/online-log/view/
 
 Receiver's log server <br>
-[GET] https://145.24.222.51:8082/online-log/view/
+[GET] http://145.24.222.51:8082/online-log/view/
 
 ## JSON Body
 > **Warning**
